@@ -8,6 +8,14 @@ public class IdGenerator {
     private static final SecureRandom random = new SecureRandom();
 
     public static String generateVenueId() {
+        return generateRandomId();
+    }
+
+    public static String generateUserId() {
+        return generateRandomId();
+    }
+
+    private static String generateRandomId() {
         StringBuilder sb = new StringBuilder(ID_LENGTH);
         for (int i = 0; i < ID_LENGTH; i++) {
             sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
