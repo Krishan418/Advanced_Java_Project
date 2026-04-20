@@ -4,6 +4,7 @@ import com.ruhuna.eventManagement.dto.VenueCreateDto;
 import com.ruhuna.eventManagement.dto.VenueResponseDto;
 import com.ruhuna.eventManagement.model.Venue;
 import com.ruhuna.eventManagement.repository.VenueRepository;
+import com.ruhuna.eventManagement.exception.custom.ResourceNotFoundException;
 import com.ruhuna.eventManagement.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,13 @@ public class VenueService {
 
     public VenueResponseDto getVenueById(String venueId) {
         Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Venue not found with id: " + venueId));
+                .orElseThrow(() -> new ResourceNotFoundException("Venue not found with id: " + venueId));
         return mapToResponseDto(venue);
     }
 
     public VenueResponseDto updateVenue(String venueId, VenueCreateDto dto) {
         Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Venue not found with id: " + venueId));
+                .orElseThrow(() -> new ResourceNotFoundException("Venue not found with id: " + venueId));
         
         venue.setName(dto.getName());
         venue.setDescription(dto.getDescription());
@@ -58,7 +59,7 @@ public class VenueService {
 
     public void deleteVenue(String venueId) {
         if (!venueRepository.existsById(venueId)) {
-            throw new RuntimeException("Venue not found with id: " + venueId);
+            throw new ResourceNotFoundException("Venue not found with id: " + venueId);
         }
         venueRepository.deleteById(venueId);
     }
